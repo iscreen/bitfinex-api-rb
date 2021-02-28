@@ -1,5 +1,17 @@
 module Bitfinex
   module RESTv2Funding
+
+    ###
+    # Active Funding Offers
+    #
+    # @param [string] symbol - used for the query funding offers
+    #
+    # @return [Array] Raw notification
+    ###
+    def active_funding_offers(symbol)
+      authenticated_post("auth/r/funding/offers/#{symbol}").body
+    end
+
     ###
     # Submit a new funding offer
     #
@@ -81,6 +93,25 @@ module Bitfinex
       dec_amount = BigDecimal(amount, 8).to_s
       payload = { :status => status, :currency => currency, :amount => dec_amount, :period => period, :rate => rate }
       authenticated_post("auth/w/funding/auto", params: payload).body
+    end
+
+    ###
+    # Keep Funding
+    # @param [string] type - Specify the funding type ('credit' or 'loan')
+    # @param [string] id - an array of id's to toggle their keep funding status
+    # @param [string] changes - object to specify changes for each id
+    #
+    # @return [Array] Raw notification
+    ###
+    def keep_funding(type, id, changes = {})
+      raise Exception, 'keep funding with invalid TYPE' unless ['credit', 'loan'].include?(type)
+      if id.is_a?(Numeric)
+        ids = [id]
+      elsif id.is_a?(Array)
+        ids = id
+      end
+      payload = { :type => type, :id => id, :changes => changes }
+      authenticated_post("auth/w/funding/keep", params: payload).body
     end
   end
 end
