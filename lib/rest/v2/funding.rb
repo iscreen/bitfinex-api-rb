@@ -113,5 +113,24 @@ module Bitfinex
       payload = { :type => type, :id => id, :changes => changes }
       authenticated_post("auth/w/funding/keep", params: payload).body
     end
+
+    ###
+    # Cancel All Funding Offers
+    #
+    # @param [string] symbol - Specifying a currency is optional.
+    #                          If the currency param is omitted, all open offers will be cancelled.
+    #
+    # @return [Array] Raw notification
+    # @example:
+    #   client.cancel_all_funding_offers('USD')
+    ###
+    def cancel_all_funding_offers(symbol = nil)
+      payload = if symbol
+                  { :currency => symbol }
+                else
+                  {}
+                end
+      authenticated_post("auth/w/funding/offer/cancel/all", params: payload).body
+    end
   end
 end
