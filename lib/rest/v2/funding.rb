@@ -143,5 +143,16 @@ module Bitfinex
     def funding_loans(symbol = nil)
       authenticated_post("auth/r/funding/loans/#{symbol}").body
     end
+
+    ###
+    # Get account funding info
+    #
+    # @param [string] symbol - used for the query funding offers
+    #
+    # @return [Array] Raw notification
+    ###
+    def funding_info(symbol = nil)
+      authenticated_post("auth/r/info/funding/#{symbol}").body
+    end
   end
 end
