@@ -65,5 +65,14 @@ module Bitfinex
       }
       authenticated_post("auth/calc/order/avail", params: params).body
     end
+
+    ###
+    # Get account funding info
+    #
+    # @return [user] UserInfo
+    ###
+    def user_info
+      authenticated_post("auth/r/info/user").body
+    end
   end
 end
