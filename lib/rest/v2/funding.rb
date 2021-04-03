@@ -132,5 +132,16 @@ module Bitfinex
                 end
       authenticated_post("auth/w/funding/offer/cancel/all", params: payload).body
     end
+
+    ###
+    # Funds not used in active positions
+    #
+    # @param [string] symbol - used for the query funding offers
+    #
+    # @return [Array] Raw notification
+    ###
+    def funding_loans(symbol = nil)
+      authenticated_post("auth/r/funding/loans/#{symbol}").body
+    end
   end
 end
