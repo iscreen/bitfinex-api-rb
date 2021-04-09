@@ -74,5 +74,14 @@ module Bitfinex
     def user_info
       authenticated_post("auth/r/info/user").body
     end
+
+    ###
+    # Retrieve current api key/token permissions
+    #
+    # [Array] Raw permission
+    ###
+    def key_permissions
+      authenticated_post("auth/r/permissions").body
+    end
   end
 end
